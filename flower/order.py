@@ -1,7 +1,6 @@
 import yaml
 from pathlib import Path
-from collections import OrderedDict
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 @dataclass
 class Frame:
@@ -10,6 +9,11 @@ class Frame:
     audio: str = None
     subtitles: str = None
     image: str = None
+
+@dataclass
+class Frames:
+    frames: list[Frame] = field(default_factory=list)
+
 
 class Order:
     """
@@ -23,7 +27,7 @@ class Order:
     Attributes:
         order_file (Path): Path to the order YAML file.
         media (Path): Base path of the project directory.
-        frames (list[dict]): List of frame dictionaries, each containing:
+        frames (list[Frame]): List of Frame objects representing each frame in order:
             - id: int, frame ID
             - video: Optional[str], video filename
             - audio: Optional[str], audio filename
