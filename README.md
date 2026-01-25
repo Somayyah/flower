@@ -16,7 +16,7 @@ Since my videos don't require that much editing to begin with, and since my obje
 │       └── 2
 │           └── 2a.mp4
 │           └── 2b.mp4
-└── output.mp4 >> Final audio
+└── output.mp4
 ```
 
 and I want to concatinate all the media files in an order, if that makes sense. I'll figure it as I go.
