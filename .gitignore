@@ -214,3 +214,11 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+.pytest_cache/
+output.mp4
+*.mp4
+*.mov
+*.avi
+*.gif
+__pycache__/
+*.pyc
