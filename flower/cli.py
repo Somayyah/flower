@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
-import pathlib
+from pathlib import Path
 import argparse
+
+media_directory = ["audio", "images", "subtitles", "videos"]
 
 class CustomFormatter(
     argparse.ArgumentDefaultsHelpFormatter,
@@ -48,15 +50,34 @@ def parse_args():
         "--project",
         metavar="PROJECTDIR",
         help="""Project directory to render""",
-        default="media",
         type=str,
     )
 
     return parser.parse_args()
 
-def create_skeleton_project(order=None, write=None, project=None):
+def create_skeleton_project(init=None, order=None):
+    if init is None:
+        print('No project name provided, using "project" instead')
+        init = 'project'
+
+    print(f"Initializing {init}...")
+    project_path = Path.cwd() / init
+    project_path.mkdir(parents=True, exist_ok=True)
+
+    for sub in media_directory:
+        (project_path / "media" / sub).mkdir(parents=True, exist_ok=True)
+
+    if order is None:
+        order = 'order.yaml'
+    elif not order.endswith(".yaml"):
+        order += ".yaml"
     
-    pass
+    order_file = project_path / order
+    if not order_file.exists():
+        order_file.write_text("# Define your video order here\n")
+        print(f"Created order file: {order_file}")
+    else:
+        print(f"Order file already exists: {order_file}")
 
 def main():
     args = parse_args()
@@ -68,10 +89,9 @@ def main():
         pass
 
     if args.project:
-        pass
-
-    if args.init:
-        create_skeleton_project()
+        print(args.project)
+    elif args.init:
+        create_skeleton_project(args.init, args.order)
 
 
 if __name__ == "__main__":

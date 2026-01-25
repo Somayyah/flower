@@ -9,7 +9,7 @@ Since my videos don't require that much editing to begin with, and since my obje
 ├── media
 │   ├── audio
 │   │   └── 1.wav
-│   ├── srts
+│   ├── subtitles
 │   │   └── 1.srt
 │   └── video
 │       ├── 1.mp4
@@ -103,7 +103,7 @@ flower -i my_project -o order.yaml -w final_video.mp4
   ├── media/
   │   ├── audio/     # put audio files here
   │   ├── images/    # put image files here
-  │   ├── srts/      # put subtitles here
+  │   ├── subtitles/      # put subtitles here
   │   └── video/     # put video files here
   └── order.yaml     # YAML file defining your sequence
   ```
