@@ -225,3 +225,4 @@ output.mp4
 
 .pytest_cache/
 testScripts/
+dev-requirements.txt
