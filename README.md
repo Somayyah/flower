@@ -1,6 +1,8 @@
 # video-editing-flow-with-ffmpeg
 My personal video editing flow with ffmpeg / python
 
+## Motivation
+
 Since my videos don't require that much editing to begin with, and since my objectives are simple I decided to automate it with ffmpeg. It should look into the media directory in the CWD, and uses the assets to generate videos. The media directory structure is like this:
 
 ```bash
