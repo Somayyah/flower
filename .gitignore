@@ -224,3 +224,4 @@ output.mp4
 *.gif
 
 .pytest_cache/
+testScripts/
