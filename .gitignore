@@ -222,3 +222,5 @@ output.mp4
 *.gif
 __pycache__/
 *.pyc
+
+sketch.txt
