@@ -54,10 +54,24 @@ def parse_args():
 
     return parser.parse_args()
 
+def create_skeleton_project(order=None, write=None, project=None):
+    
+    pass
 
 def main():
     args = parse_args()
-    print(args)
+
+    if args.order:
+        pass
+
+    if args.write:
+        pass
+
+    if args.project:
+        pass
+
+    if args.init:
+        create_skeleton_project()
 
 
 if __name__ == "__main__":
