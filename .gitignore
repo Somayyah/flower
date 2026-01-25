@@ -225,3 +225,7 @@ __pycache__/
 
 sketch.txt
 project
+
+tests
+
+.gitignore

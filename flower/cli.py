@@ -2,6 +2,8 @@
 
 from pathlib import Path
 import argparse
+from flower.render import Renderer
+from flower.order import Order
 
 media_directory = ["audio", "images", "subtitles", "videos"]
 
@@ -82,17 +84,18 @@ def create_skeleton_project(init=None, order=None):
 def main():
     args = parse_args()
 
-    if args.order:
-        pass
-
-    if args.write:
-        pass
-
     if args.project:
-        print(args.project)
+        if args.order:
+            order = Order()
+        if args.write:
+            write = args.write
+        Renderer(order, write)
+
     elif args.init:
         create_skeleton_project(args.init, args.order)
 
+    if args.write:
+        pass
 
 if __name__ == "__main__":
     main()
