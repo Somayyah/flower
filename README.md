@@ -1,4 +1,5 @@
-# video-editing-flow-with-ffmpeg
+# Flower
+
 My personal video editing flow with ffmpeg / python
 
 ## Motivation

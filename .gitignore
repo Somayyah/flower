@@ -224,5 +224,6 @@ output.mp4
 *.gif
 
 .pytest_cache/
-tests/
 dev-requirements.txt
+tests/**
+tests/
