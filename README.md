@@ -26,38 +26,51 @@ and I want to concatinate all the media files in an order, if that makes sense. 
 Frame order is stored in order.yaml, for example:
 
 ```yaml
-- id: 1
-  video: 1.mp4
-  audio: 1.wav
-  subtitles: 1.srt
-  image: null
+frames:
+  - id: 1
+    video: 1.mp4
+    audio: 1.wav
+    subtitles: 1.srt
+    image: null
 
-- id: 2
-  video: null
-  audio: 2.wav
-  subtitles: null
-  image: 2.png
+  - id: 2
+    video: 2.mp4
+    audio: 2.wav
+    subtitles: 2.srt
+    image: 2.png
+
+timeline:
+  - clip: 1
+    input: [1, 2]
+    transition: fade
 ```
 
 Frames have sequencial IDs, you can ommit adding assets if they don't exist and you can explicitly ommit them as below:
 
 ```yaml
-- id: 1
-  video: 1.mp4
-  audio: 1.wav
-  subtitles: 1.srt
+frames:
+  - id: 1
+    video: 1.mp4
+    audio: 1.wav
+    image: null
 
-- id: 2
-  video: null
-  audio: 2.wav
-  subtitles: null
+  - id: 2
+    video: 2.mp4
+    audio: 2.wav
+    subtitles: 2.srt
+    image: 2.png
+
+timeline:
+  - clip: 1
+    input: [1, 2]
+    transition: fade
 ```
 
 If Assets are ommitted it will be assumed based on the ID number, so below:
 
 ```yaml
+frames:
 - id: 1
-
 - id: 2
 ```
 
@@ -76,6 +89,8 @@ Is same as:
   subtitles: 1.srt
   image: 2.png
 ```
+
+If TimeLine is ommitted, the frames will run in sequencial order.
 
 ## How to use
 
