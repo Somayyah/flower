@@ -1,16 +1,25 @@
 import yaml
 from pathlib import Path
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 import logging
 
 @dataclass
 class Frame:
-    id : int
     video: str = None
     audio: str = None
     subtitles: str = None
     image: str = None
 
+@dataclass
+class timelineEntry:
+    clip: list = None
+    transition: str = None
+
+@dataclass
+class Clip:
+    name: str
+    frames: list[int]
+    
 class Order:
     """
     Represents the frame order defined in order.yaml.
@@ -28,41 +37,44 @@ class Order:
     def __init__(self, order_file: Path) -> None:
         self.logger = logging.getLogger(__name__)
         self.order_file = self.load_yaml(order_file)
-        self.frames: list[Frame] = []
+        self.frames: list[Frame] = self.load_frames()
         self.timeline = self.draft_timeline()
-        self.load_frames()
 
     def load_yaml(self, order_file: Path) -> dict:
         """Load the YAML file and return its contents as a dictionary."""
         try:
             with order_file.open("r") as f:
-                return yaml.safe_load(f)
+                order = yaml.safe_load(f)
+                self.logger.debug(f"Loaded order file: {order_file}")
+                self.logger.debug(f"Order contents: {order}")
+                return order
         except FileNotFoundError:
             self.logger.error(f"Order file not found: {order_file}")
             raise
 
     def load_frames(self) -> None:
         """Parse order.yaml and populate self.frames."""
-        for frame_entry in self.order_file.get('frames', []):
+        frames = []
+        for frame_entry in self.order_file['frames'].items():
+            self.logger.debug(f"Parsing frame entry: {frame_entry}")
             frame = Frame(
-                id=frame_entry.get('id'),
                 video=frame_entry.get('video'),
                 audio=frame_entry.get('audio'),
                 subtitles=frame_entry.get('subtitles'),
                 image=frame_entry.get('image')
             )
+            frames[int(frame_entry[0])] = frame
             self.logger.debug(f"Created frame: {frame}")
-            self.frames.append(frame)
-        self.logger.info(f"Loaded {len(self.frames)} frames from order file.")
+        self.logger.info(f"Loaded {len(frames)} frames from order file.")
+        return frames
     
     def draft_timeline(self):
         """Draft a timeline based on the loaded frames."""
+        if 'timeline' not in self.order_file:
+            return []
         timeline = []
-        for frame in self.frames:
-            timeline.append({
-                'video': frame.video,
-                'audio': frame.audio,
-                'subtitles': frame.subtitles,
-                'image': frame.image
-            })
+        for entry in self.order_file['timeline']:
+            timeline.append(entry)
+        self.logger.info(f"Drafted timeline with {len(timeline)} entries.")
+        self.logger.debug(f"Timeline contents: {timeline}")
         return timeline
