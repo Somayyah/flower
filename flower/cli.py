@@ -4,6 +4,9 @@ from pathlib import Path
 import argparse
 from render import Renderer
 from order import Order
+import logging
+import log
+
 
 media_directory = ["audio", "images", "subtitles", "videos"]
 
@@ -39,6 +42,13 @@ def parse_args():
     )
 
     parser.add_argument(
+        "--debug",
+        action="store_true",
+        help="Enable debug logging"
+    )
+
+
+    parser.add_argument(
         "-w",
         "--write",
         metavar="OUTPUTFILE",
@@ -59,10 +69,10 @@ def parse_args():
 
 def create_skeleton_project(init=None, order=None):
     if init is None:
-        print('No project name provided, using "project" instead')
+        log.logging.warning('No project name provided, using "project" instead')
         init = 'project'
 
-    print(f"Initializing {init}...")
+    log.logging.info(f"Creating skeleton project: {init}")
     project_path = Path.cwd() / init
     project_path.mkdir(parents=True, exist_ok=True)
 
@@ -77,15 +87,28 @@ def create_skeleton_project(init=None, order=None):
     order_file = project_path / order
     if not order_file.exists():
         order_file.write_text("# Define your video order here\n")
-        print(f"Created order file: {order_file}")
+        log.logging.info(f"Created order file: {order_file}")
     else:
-        print(f"Order file already exists: {order_file}")
+        log.logging.warning(f"Order file already exists: {order_file}")
 
 def main():
     args = parse_args()
+
+    log.setup_logging(
+        level=logging.DEBUG if args.debug else logging.INFO
+    )
+
+    logger = logging.getLogger(__name__)
+
+    logger.debug("CLI arguments parsed")
+
     if args.project:
-        order = Order(args.order)
-        Renderer(order)
+        project_path = Path(args.project)
+        if not project_path.exists():
+            logger.error(f"Project directory does not exist: {project_path}")  
+            return
+        order = Order(project_path / args.order)
+        #Renderer(order)
 
     elif args.init:
         create_skeleton_project(args.init, args.order)
