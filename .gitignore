@@ -227,3 +227,6 @@ output.mp4
 dev-requirements.txt
 tests/**
 tests/
+
+project/
+venv/
